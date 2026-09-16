@@ -117,3 +117,36 @@ st.info(
     f"💡 **이 그래프로 알 수 있는 것:** 대부분의 박스오피스 10위권 영화는 하위 구간(약 100만~300만 명 이하)에 밀집되어 있으며, 상위 흥행작으로 갈수록 영화 수가 급격히 줄어드는 전형적인 비대칭(L자형) 분포를 보입니다. "
     f"가장 관객이 많은 영화는 **'{top_movie_name}'** (약 {top_movie_audi:,.0f}명)입니다."
 )
+
+st.divider()
+
+# --- Section 4: 개봉일 스크린 수와 총 관객 수의 관계 (산점도) ---
+st.header("4. 개봉일 스크린 수와 총 관객 수 산점도")
+
+# Plotly 산점도 그래프 생성
+fig4 = px.scatter(
+    df,
+    x="first_scrn",
+    y="total_audi",
+    color="genre",
+    hover_name="movieNm",
+    title="개봉일 스크린 수 대 총 관객 수 관계",
+    labels={
+        "first_scrn": "개봉일 스크린 수 (개)",
+        "total_audi": "총 관객 수 (명)",
+        "genre": "장르",
+    },
+)
+
+# 툴팁 형태 커스텀 설정
+fig4.update_traces(
+    hovertemplate="<b>%{hovertext}</b><br>개봉일 스크린 수: %{x:,}개<br>총 관객 수: %{y:,}명<extra></extra>"
+)
+
+# 그래프 출력 (key 지정으로 중복 문제 예방)
+st.plotly_chart(fig4, use_container_width=True, key="plotly_scatter_chart")
+
+# 그래프 분석 텍스트 구역
+st.info(
+    "💡 **이 그래프로 알 수 있는 것:** 개봉일 스크린 수가 많을수록 총 관객 수도 증가하는 양(+)의 상관관계를 보이는 경향이 있으나, 초반 스크린 수가 적더라도 최종 흥행(총 관객 수)에 성공한 이상치 영화(입소문 흥행작 등)나 장르별 흥행 패턴의 차이를 함께 확인할 수 있습니다."
+)
