@@ -106,8 +106,8 @@ fig1.update_traces(
     hoverinfo="label+value+percent", textinfo="label+percent"
 )
 
-# 그래프 출력
-st.plotly_chart(fig1, use_container_width=True)
+# 그래프 출력 (key 추가)
+st.plotly_chart(fig1, use_container_width=True, key="plotly_donut_chart")
 
 # 그래프 분석 텍스트 구역
 st.info(
@@ -120,24 +120,22 @@ st.divider()
 st.header("2. 장르 및 영화별 총 관객 수 트리맵")
 
 # Plotly 트리맵 그래프 생성
-# path: 계층 구조 (장르 -> 영화명)
-# values: 사각형의 크기를 결정하는 열 (총 관객 수)
 fig2 = px.treemap(
     df,
     path=[px.Constant("전체 장르"), "genre", "movieNm"],
     values="total_audi",
     color="genre",
     title="장르 및 영화별 총 관객 수 분포",
-    hover_data={"total_audi": ":,f"},  # 관객 수 천 단위 쉼표 표기
+    hover_data={"total_audi": ":,f"},
 )
 
-# 툴팁(마우스 오버) 서식 커스텀 설정
+# 툴팁 서식 커스텀 설정
 fig2.update_traces(
     hovertemplate="<b>%{label}</b><br>총 관객 수: %{value:,}명<extra></extra>"
 )
 
-# 그래프 출력
-st.plotly_chart(fig2, use_container_width=True)
+# 그래프 출력 (key 추가)
+st.plotly_chart(fig2, use_container_width=True, key="plotly_treemap_chart")
 
 # 그래프 분석 텍스트 구역
 st.info(
