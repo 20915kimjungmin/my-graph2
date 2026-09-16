@@ -55,6 +55,7 @@ st.plotly_chart(fig1, use_container_width=True)
 st.info(
     "💡 **이 그래프로 알 수 있는 것:** 특정 장르에 개봉작이 집중되어 있는지, 혹은 다양한 장르가 균등하게 분포되어 있는지 비율을 통해 직관적으로 확인할 수 있습니다."
 )
+
 import pandas as pd
 import plotly.express as px
 import streamlit as st
