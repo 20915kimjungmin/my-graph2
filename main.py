@@ -149,3 +149,37 @@ st.plotly_chart(fig4, use_container_width=True, key="plotly_scatter_chart")
 st.info(
     "💡 **이 그래프로 알 수 있는 것:** 처음 틀어주는 영화관(스크린) 수가 많을수록 사람도 많다는 것을 알 수 있다."
 )
+st.divider()
+
+# --- Section 5: 주요 장르별 총 관객 수 분포 (박스플롯) ---
+st.header("5. 주요 장르별 총 관객 수 박스플롯")
+
+# 1. 영화가 10편 이상인 장르 필터링
+genre_counts = df["genre"].value_counts()
+major_genres = genre_counts[genre_counts >= 10].index
+df_major = df[df["genre"].isin(major_genres)]
+
+# 2. Plotly 박스플롯 생성 (hover_name으로 마우스 오버 시 영화명 표시)
+fig5 = px.box(
+    df_major,
+    x="genre",
+    y="total_audi",
+    color="genre",
+    hover_name="movieNm",
+    points="outliers",  # 상자 밖의 이상치 점만 표시
+    title="영화 10편 이상 장르의 총 관객 수 분포 (이상치 포함)",
+    labels={"genre": "장르", "total_audi": "총 관객 수 (명)"},
+)
+
+# 3. 툴팁 서식 커스텀 설정 (이상치 점에 마우스 올렸을 때 영화명과 관객 수 표시)
+fig5.update_traces(
+    hovertemplate="<b>%{hovertext}</b><br>총 관객 수: %{y:,}명<extra></extra>"
+)
+
+# 4. 그래프 출력 (key 지정)
+st.plotly_chart(fig5, use_container_width=True, key="plotly_box_chart")
+
+# 5. 그래프 분석 텍스트 구역 (쉬운 말투 버전)
+st.info(
+    "💡 **이 그래프로 알 수 있는 것:** 영화가 많이 개봉하는 대표 장르들끼리 비교해 볼 수 있다. 상자 위로 톡 튀어나온 점들은 같은 장르 안에서도 흥행에 성공한 영화들이다."
+)
