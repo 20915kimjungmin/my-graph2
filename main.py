@@ -193,11 +193,11 @@ st.divider()
 # --- Section 7: 제작 국가 및 장르별 영화 편수 (선버스트 그래프) ---
 st.header("7. 제작 국가 및 장르별 영화 편수 선버스트")
 
+# Plotly 선버스트 그래프 생성 (color="nation" 제거로 계층 충돌 오류 해결)
 fig7 = px.sunburst(
     df,
     path=["nation", "genre"],
     title="제작 국가 및 장르별 영화 편수 구조",
-    color="nation",
 )
 fig7.update_traces(
     hovertemplate="<b>%{label}</b><br>영화 편수: %{value}편<extra></extra>"
