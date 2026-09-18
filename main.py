@@ -19,8 +19,8 @@ def load_data():
     url = "https://raw.githubusercontent.com/greatsong/modudata/main/data/kobis_movies.csv"
     df = pd.read_csv(url)
 
-    # 장르 전처리: '|' 기호로 구분된 복수 장르 중 첫 번째 장르만 추출
-    df["genre"] = df["genre"].astype(str).apply(lambda x: x.split("|")[0])
+    # 문자열 처리 오류 방지를 위한 .str 접근자 사용
+    df["genre"] = df["genre"].fillna("기타").astype(str).str.split("|").str[0]
 
     return df
 
@@ -32,11 +32,9 @@ st.divider()
 # --- Section 1: 장르별 영화 편수 (도넛 그래프) ---
 st.header("1. 장르별 영화 편수 분포")
 
-# 장르별 편수 집계
 genre_counts = df["genre"].value_counts().reset_index()
 genre_counts.columns = ["genre", "count"]
 
-# Plotly 도넛 그래프 생성
 fig1 = px.pie(
     genre_counts,
     values="count",
@@ -44,16 +42,13 @@ fig1 = px.pie(
     hole=0.4,
     title="장르별 영화 편수 비율",
 )
-fig1.update_traces(
-    hoverinfo="label+value+percent", textinfo="label+percent"
-)
+fig1.update_traces(hoverinfo="label+value+percent", textinfo="label+percent")
 
-# 그래프 출력
 st.plotly_chart(fig1, use_container_width=True, key="plotly_donut_chart")
 
-# 그래프 분석 텍스트 구역 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 무슨 장르 영화가 제일 많이 나왔고, 어떤 장르가 인기 있어서 많이 만들어졌는지를 한눈에 볼 수 있다."
+    "💡 **이 그래프로 알 수 있는 것:** 무슨 장르 영화가 제일 많이 나왔고, 어떤 장르가 인기 있어서 많이 만들어졌는지를 한눈에 볼 수 있다.
+"
 )
 
 st.divider()
@@ -61,7 +56,6 @@ st.divider()
 # --- Section 2: 장르 및 영화별 총 관객 수 (트리맵 그래프) ---
 st.header("2. 장르 및 영화별 총 관객 수 트리맵")
 
-# Plotly 트리맵 그래프 생성
 fig2 = px.treemap(
     df,
     path=[px.Constant("전체 장르"), "genre", "movieNm"],
@@ -70,16 +64,12 @@ fig2 = px.treemap(
     title="장르 및 영화별 총 관객 수 분포",
     hover_data={"total_audi": ":,f"},
 )
-
-# 툴팁 서식 커스텀 설정
 fig2.update_traces(
     hovertemplate="<b>%{label}</b><br>총 관객 수: %{value:,}명<extra></extra>"
 )
 
-# 그래프 출력
 st.plotly_chart(fig2, use_container_width=True, key="plotly_treemap_chart")
 
-# 그래프 분석 텍스트 구역 (쉬운 말투로 변경)
 st.info(
     "💡 **이 그래프로 알 수 있는 것:** 네모 칸이 클수록 사람들이 많이 봤다는 것을 알 수 있다. 어떤 장르가 흥행했고 그 안에서 어떤 영화가 잘 나갔는지를 볼 수 있다."
 )
@@ -89,12 +79,10 @@ st.divider()
 # --- Section 3: 총 관객 수 분포 (히스토그램) ---
 st.header("3. 총 관객 수 히스토그램")
 
-# 최다 관객 영화 정보 동적 계산
 top_movie = df.sort_values(by="total_audi", ascending=False).iloc[0]
 top_movie_name = top_movie["movieNm"]
 top_movie_audi = top_movie["total_audi"]
 
-# Plotly 히스토그램 그래프 생성
 fig3 = px.histogram(
     df,
     x="total_audi",
@@ -105,16 +93,13 @@ fig3 = px.histogram(
 fig3.update_traces(
     hovertemplate="총 관객 수 구간: %{x:,}명<br>영화 수: %{y}편<extra></extra>"
 )
-
-# X축 단위 설정 및 레이아웃 다듬기
 fig3.update_layout(xaxis_title="총 관객 수 (명)", yaxis_title="영화 수 (편)")
 
-# 그래프 출력
 st.plotly_chart(fig3, use_container_width=True, key="plotly_histogram_chart")
 
-# 그래프 분석 텍스트 구역 (쉬운 말투로 변경)
 st.info(
-    f"💡 **이 그래프로 알 수 있는 것:** 대부분의 영화는 관객 수가 왼쪽 밑에 몰려있고, 진짜 흥행한 영화는 몇 개 안된다는 것을 알 수 있다."
+    f"💡 **이 그래프로 알 수 있는 것:** 대부분의 영화는 관객 수가 왼쪽 밑에 몰려있고, 진짜 흥행한 영화는 몇 개 안된다는 것을 알 수 있다.
+"
 )
 
 st.divider()
@@ -122,7 +107,6 @@ st.divider()
 # --- Section 4: 개봉일 스크린 수와 총 관객 수의 관계 (산점도) ---
 st.header("4. 개봉일 스크린 수와 총 관객 수 산점도")
 
-# Plotly 산점도 그래프 생성
 fig4 = px.scatter(
     df,
     x="first_scrn",
@@ -136,50 +120,42 @@ fig4 = px.scatter(
         "genre": "장르",
     },
 )
-
-# 툴팁 형태 커스텀 설정
 fig4.update_traces(
     hovertemplate="<b>%{hovertext}</b><br>개봉일 스크린 수: %{x:,}개<br>총 관객 수: %{y:,}명<extra></extra>"
 )
 
-# 그래프 출력
 st.plotly_chart(fig4, use_container_width=True, key="plotly_scatter_chart")
 
-# 그래프 분석 텍스트 구역 (쉬운 말투로 변경)
 st.info(
     "💡 **이 그래프로 알 수 있는 것:** 처음 틀어주는 영화관(스크린) 수가 많을수록 사람도 많다는 것을 알 수 있다."
 )
+
 st.divider()
 
 # --- Section 5: 주요 장르별 총 관객 수 분포 (박스플롯) ---
 st.header("5. 주요 장르별 총 관객 수 박스플롯")
 
-# 1. 영화가 10편 이상인 장르 필터링
-genre_counts = df["genre"].value_counts()
-major_genres = genre_counts[genre_counts >= 10].index
+# 10편 이상인 장르만 필터링
+genre_counts_series = df["genre"].value_counts()
+major_genres = genre_counts_series[genre_counts_series >= 10].index
 df_major = df[df["genre"].isin(major_genres)]
 
-# 2. Plotly 박스플롯 생성 (hover_name으로 마우스 오버 시 영화명 표시)
 fig5 = px.box(
     df_major,
     x="genre",
     y="total_audi",
     color="genre",
     hover_name="movieNm",
-    points="outliers",  # 상자 밖의 이상치 점만 표시
+    points="outliers",
     title="영화 10편 이상 장르의 총 관객 수 분포 (이상치 포함)",
     labels={"genre": "장르", "total_audi": "총 관객 수 (명)"},
 )
-
-# 3. 툴팁 서식 커스텀 설정 (이상치 점에 마우스 올렸을 때 영화명과 관객 수 표시)
 fig5.update_traces(
     hovertemplate="<b>%{hovertext}</b><br>총 관객 수: %{y:,}명<extra></extra>"
 )
 
-# 4. 그래프 출력 (key 지정)
 st.plotly_chart(fig5, use_container_width=True, key="plotly_box_chart")
 
-# 5. 그래프 분석 텍스트 구역 (쉬운 말투 버전)
 st.info(
     "💡 **이 그래프로 알 수 있는 것:** 영화가 많이 개봉하는 대표 장르들끼리 비교해 볼 수 있다. 상자 위로 톡 튀어나온 점들은 같은 장르 안에서도 흥행에 성공한 영화들이다."
 )
