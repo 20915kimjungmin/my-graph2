@@ -48,7 +48,7 @@ fig1.update_traces(hoverinfo="label+value+percent", textinfo="label+percent")
 st.plotly_chart(fig1, use_container_width=True, key="plotly_donut_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 무슨 장르 영화가 제일 많이 나왔는지, 어떤 장르가 인기 있어서 많이 만들어졌는지 동그라미 조각 크기로 딱 보여요!"
+    "💡 **이 그래프로 알 수 있는 것:** 무슨 장르 영화가 제일 많이 나왔고, 어떤 장르가 인기 있어서 많이 만들어졌는지를 한눈에 볼 수 있다."
 )
 
 st.divider()
@@ -71,7 +71,7 @@ fig2.update_traces(
 st.plotly_chart(fig2, use_container_width=True, key="plotly_treemap_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 네모 칸이 클수록 손님이 엄청 많이 온 영화예요! 어떤 장르가 대박 났고 그 안에서 제일 잘나간 영화가 뭔지 보여요."
+    "💡 **이 그래프로 알 수 있는 것:** 네모 칸이 클수록 사람들이 많이 봤다는 것을 알 수 있다. 어떤 장르가 흥행했고 그 안에서 어떤 영화가 잘 나갔는지를 볼 수 있다."
 )
 
 st.divider()
@@ -98,7 +98,7 @@ fig3.update_layout(xaxis_title="총 관객 수 (명)", yaxis_title="영화 수 (
 st.plotly_chart(fig3, use_container_width=True, key="plotly_histogram_chart")
 
 st.info(
-    f"💡 **이 그래프로 알 수 있는 것:** 대부분의 영화는 관객 수가 왼쪽 밑에 몰려있고, 진짜 대박 난 영화는 몇 개 안 돼요! 제일 대박 난 영화는 **'{top_movie_name}'** (약 {top_movie_audi:,.0f}명)이에요."
+    f"💡 **이 그래프로 알 수 있는 것:** 대부분의 영화는 관객 수가 왼쪽 밑에 몰려있고, 진짜 흥행한 영화는 몇 개 안된다는 것을 알 수 있다."
 )
 
 st.divider()
@@ -126,7 +126,7 @@ fig4.update_traces(
 st.plotly_chart(fig4, use_container_width=True, key="plotly_scatter_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 처음 틀어주는 영화관(스크린) 수가 많을수록 손님도 많은 편이에요. 하지만 영화관 수가 적었어도 입소문 타고 대박 난 대단한 영화들도 보여요!"
+    "💡 **이 그래프로 알 수 있는 것:** 처음 틀어주는 영화관(스크린) 수가 많을수록 사람도 많다는 것을 알 수 있다."
 )
 
 st.divider()
@@ -155,7 +155,7 @@ fig5.update_traces(
 st.plotly_chart(fig5, use_container_width=True, key="plotly_box_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 영화가 많이 나오는 대표 장르들끼리 비교해 볼 수 있어요! 상자 위로 톡 튀어나온 점들은 같은 장르 안에서도 혼자 엄청 대박 난 특출난 영화들이에요."
+    "💡 **이 그래프로 알 수 있는 것:** 영화가 많이 개봉하는 대표 장르들끼리 비교해 볼 수 있다. 상자 위로 톡 튀어나온 점들은 같은 장르 안에서도 흥행에 성공한 영화들이다."
 )
 
 st.divider()
@@ -186,7 +186,7 @@ fig6.update_traces(
 st.plotly_chart(fig6, use_container_width=True, key="plotly_bubble_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 동그라미 크기가 클수록 개봉하자마자 첫 주에 손님이 구름처럼 몰려든 영화예요! 첫 주에 엄청나게 몰린 영화가 최종 관객 수도 많은지 한눈에 비교해 볼 수 있어요."
+    "💡 **이 그래프로 알 수 있는 것:** 첫 주에 엄청나게 몰린 영화가 최종 관객 수도 많은지 한눈에 비교해 볼 수 있다."
 )
 
 st.divider()
@@ -212,7 +212,7 @@ fig7.update_traces(
 st.plotly_chart(fig7, use_container_width=True, key="plotly_sunburst_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** 알록달록한 과녁 모양 알맹이예요! 안쪽 원(나라)을 먼저 보고, 밖으로 뻗어 나간 조각(장르)을 보면서 어느 나라에서 어떤 종류의 영화를 많이 만들었는지 한눈에 알 수 있어요."
+    "💡 **이 그래프로 알 수 있는 것:** 어느 나라에 어떤 종류의 영화를 많이 만들었는지 한눈에 알 수 있다."
 )
 
 st.divider()
@@ -240,5 +240,5 @@ fig8.update_traces(
 st.plotly_chart(fig8, use_container_width=True, key="plotly_bar_chart")
 
 st.info(
-    "💡 **이 그래프로 알 수 있는 것:** TOP 10에 오래오래 남아있던 영화일수록 사람들이 훨씬 많이 찾아와서 총 관객 수가 엄청나게 커진 것을 볼 수 있어요!"
+    "💡 **이 그래프로 알 수 있는 것:** 총 관객 수가 엄청나게 커진 것을 볼 수 있다!"
 )
