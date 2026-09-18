@@ -19,8 +19,9 @@ def load_data():
     url = "https://raw.githubusercontent.com/greatsong/modudata/main/data/kobis_movies.csv"
     df = pd.read_csv(url)
 
-    # 문자열 오류 방지를 위한 .str 접근자 사용
+    # 문자열 처리 및 결측치 방지
     df["genre"] = df["genre"].fillna("기타").astype(str).str.split("|").str[0]
+    df["nation"] = df["nation"].fillna("기타").astype(str)
 
     return df
 
@@ -193,10 +194,15 @@ st.divider()
 # --- Section 7: 제작 국가 및 장르별 영화 편수 (선버스트 그래프) ---
 st.header("7. 제작 국가 및 장르별 영화 편수 선버스트")
 
-# Plotly 선버스트 그래프 생성 (color="nation" 제거로 계층 충돌 오류 해결)
+# 계층 데이터 사전 집계로 ValueError 오류 방지
+df_sunburst = (
+    df.groupby(["nation", "genre"]).size().reset_index(name="count")
+)
+
 fig7 = px.sunburst(
-    df,
+    df_sunburst,
     path=["nation", "genre"],
+    values="count",
     title="제작 국가 및 장르별 영화 편수 구조",
 )
 fig7.update_traces(
